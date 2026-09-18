@@ -1,0 +1,225 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Timestamp — Unix timestamp converter</title>
+    <meta
+      name="description"
+      content="Convert Unix timestamps and date-times precisely in your browser, with clear Local and UTC interpretation."
+    />
+    <meta name="robots" content="index,follow" />
+    <link rel="canonical" href="https://timestamp.themkvz.com/" />
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="Timestamp — Unix timestamp converter" />
+    <meta
+      property="og:description"
+      content="Convert Unix timestamps and date-times precisely in your browser, with clear Local and UTC interpretation."
+    />
+    <meta property="og:url" content="https://timestamp.themkvz.com/" />
+    <meta property="og:image" content="https://timestamp.themkvz.com/social.png" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="Timestamp — Unix timestamp converter" />
+    <meta
+      name="twitter:description"
+      content="Convert Unix timestamps and date-times precisely in your browser, with clear Local and UTC interpretation."
+    />
+    <meta name="twitter:image" content="https://timestamp.themkvz.com/social.png" />
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@type": "WebApplication",
+        "name": "Timestamp",
+        "url": "https://timestamp.themkvz.com/",
+        "description": "Convert Unix timestamps and date-times precisely in your browser, with clear Local and UTC interpretation.",
+        "applicationCategory": "UtilitiesApplication",
+        "operatingSystem": "Any",
+        "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" }
+      }
+    </script>
+    <meta name="theme-color" content="#07141d" />
+    <link rel="icon" href="./public/favicon.svg" type="image/svg+xml" />
+    <link rel="alternate icon" href="/favicon.ico" sizes="any" />
+    <link rel="apple-touch-icon" href="./public/apple-touch-icon.png" />
+    <link rel="manifest" href="./public/site.webmanifest" />
+    <link rel="stylesheet" href="./src/assets/styles.css" />
+    <script type="module" src="./src/timestamp/converter.ts"></script>
+  </head>
+  <body>
+    <header class="site-header">
+      <nav class="nav-primary" aria-label="Primary navigation">
+        <a href="#converter" aria-current="page">Converter</a>
+        <a href="/faq">FAQ</a>
+      </nav>
+      <a class="wordmark" href="/" aria-label="Timestamp home">
+        <span>time</span><strong>stamp</strong>
+      </a>
+      <nav class="nav-secondary" aria-label="About navigation">
+        <a href="#how-it-works">How it works</a>
+        <a href="#privacy">Privacy</a>
+      </nav>
+    </header>
+    <main class="page home-page">
+      <section class="hero" aria-labelledby="hero-heading">
+        <header class="hero-copy">
+          <p class="eyebrow">Local-first · millisecond precise</p>
+          <h1 id="hero-heading">One instant.<br /><em>Every useful representation.</em></h1>
+          <p class="hero-lede">
+            Convert Unix time, UTC, and your browser’s local time without sending a value anywhere.
+          </p>
+        </header>
+      <form id="converter" class="converter" novalidate>
+        <header class="converter-header">
+          <p><span class="signal-light" aria-hidden="true"></span>Timestamp console</p>
+          <small>Date and time ↔ Unix</small>
+        </header>
+        <section class="card input-card" aria-labelledby="date-heading">
+          <h2 id="date-heading">Date and time</h2>
+          <div data-field>
+            <label for="date-time">Date and time</label>
+            <input
+              id="date-time"
+              name="date-time"
+              type="datetime-local"
+              step="0.001"
+              aria-describedby="date-hint date-error"
+            />
+            <small id="date-hint" data-hint
+              >Choose how this wall-clock time is interpreted.</small
+            >
+            <small id="date-error" class="error" role="alert"></small>
+          </div>
+          <div data-field>
+            <label for="timezone-mode">Interpret as</label>
+            <select id="timezone-mode" name="timezone-mode">
+              <option value="local">Local browser time</option>
+              <option value="utc">UTC (+00:00)</option>
+            </select>
+          </div>
+          <button id="now" type="button">Use current time</button>
+        </section>
+        <section class="card input-card" aria-labelledby="unix-heading">
+          <h2 id="unix-heading">Unix timestamp</h2>
+          <div data-field>
+            <label for="unix-value">Value</label>
+            <input
+              id="unix-value"
+              name="unix-value"
+              type="text"
+              inputmode="decimal"
+              autocomplete="off"
+              aria-describedby="unix-hint unix-error"
+            />
+            <small id="unix-hint" data-hint
+              >Seconds accept up to three decimal places; milliseconds are whole numbers.</small
+            >
+            <small id="unix-error" class="error" role="alert"></small>
+          </div>
+          <div data-field>
+            <label for="unix-unit">Unit</label>
+            <select id="unix-unit" name="unix-unit">
+              <option value="seconds">Seconds</option>
+              <option value="milliseconds">Milliseconds</option>
+            </select>
+          </div>
+        </section>
+        <section class="card results-card" aria-labelledby="results-heading">
+          <h2 id="results-heading">
+            Exact representations
+            <span class="badge outline output-badge">Read only</span>
+          </h2>
+          <div class="result">
+            <label for="unix-seconds">Unix seconds</label>
+            <fieldset class="group">
+              <input id="unix-seconds" readonly aria-label="Unix seconds output" />
+              <button
+                type="button"
+                class="outline icon copy-button"
+                data-copy="unix-seconds"
+                data-tooltip="Copy Unix seconds"
+                aria-label="Copy Unix seconds"
+              >
+                <svg aria-hidden="true" viewBox="0 0 24 24">
+                  <rect x="9" y="9" width="11" height="11" rx="2" />
+                  <path d="M15 9V6a2 2 0 0 0-2-2H6a2 2 0 0 0-2 2v7a2 2 0 0 0 2 2h3" />
+                </svg>
+              </button>
+            </fieldset>
+          </div>
+          <div class="result">
+            <label for="unix-milliseconds">Unix milliseconds</label>
+            <fieldset class="group">
+              <input id="unix-milliseconds" readonly aria-label="Unix milliseconds output" />
+              <button
+                type="button"
+                class="outline icon copy-button"
+                data-copy="unix-milliseconds"
+                data-tooltip="Copy Unix milliseconds"
+                aria-label="Copy Unix milliseconds"
+              >
+                <svg aria-hidden="true" viewBox="0 0 24 24">
+                  <rect x="9" y="9" width="11" height="11" rx="2" />
+                  <path d="M15 9V6a2 2 0 0 0-2-2H6a2 2 0 0 0-2 2v7a2 2 0 0 0 2 2h3" />
+                </svg>
+              </button>
+            </fieldset>
+          </div>
+          <div class="result primary-result">
+            <label for="utc-iso">UTC ISO 8601</label>
+            <fieldset class="group">
+              <input id="utc-iso" readonly aria-label="UTC ISO 8601 output" />
+              <button
+                type="button"
+                class="outline icon copy-button"
+                data-copy="utc-iso"
+                data-tooltip="Copy UTC ISO 8601"
+                aria-label="Copy UTC ISO 8601"
+              >
+                <svg aria-hidden="true" viewBox="0 0 24 24">
+                  <rect x="9" y="9" width="11" height="11" rx="2" />
+                  <path d="M15 9V6a2 2 0 0 0-2-2H6a2 2 0 0 0-2 2v7a2 2 0 0 0 2 2h3" />
+                </svg>
+              </button>
+            </fieldset>
+          </div>
+          <div class="result primary-result">
+            <label for="localized-time">Your local time</label>
+            <input id="localized-time" readonly aria-label="Localized date and time output" />
+          </div>
+        </section>
+        <p id="converter-status" role="status" aria-live="polite"></p>
+      </form>
+      <noscript>
+        <p role="alert">
+          Enable JavaScript to convert values. This page never sends entered values anywhere.
+        </p>
+      </noscript>
+      </section>
+      <section class="home-notes" aria-label="About Timestamp">
+        <article id="how-it-works">
+          <p class="note-label">How it works</p>
+          <h2>One value, synchronized everywhere.</h2>
+          <p>
+            Edit either side. Timestamp keeps Unix seconds, milliseconds, UTC, and local time tied
+            to the same exact instant.
+          </p>
+        </article>
+        <article id="privacy">
+          <p class="note-label">Privacy</p>
+          <h2>Your timestamps stay in this tab.</h2>
+          <p>
+            Conversion happens entirely in your browser. No account, history, tracking, or network
+            request contains what you enter.
+          </p>
+        </article>
+      </section>
+    </main>
+    <footer class="site-footer">
+      <small>Local-first timestamp conversion.</small>
+      <nav aria-label="Footer navigation">
+        <a href="/" aria-current="page">Converter</a>
+        <a href="/faq">FAQ</a>
+      </nav>
+    </footer>
+  </body>
+</html>

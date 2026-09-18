@@ -1,0 +1,30 @@
+{
+  "name": "timestamp",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "build": "bun run scripts/build.ts",
+    "check": "bun run format:check && bun run lint && bun run typecheck",
+    "dev": "bun ./index.html ./faq.html",
+    "format": "biome format --write .",
+    "format:check": "biome format .",
+    "lint": "biome lint .",
+    "test": "bun run build && TZ=America/New_York bun test",
+    "typecheck": "tsc --noEmit"
+  },
+  "dependencies": {
+    "@fontsource-variable/geist": "^5.3.0",
+    "@knadh/oat": "^0.8.0",
+    "nanostores": "^1.5.3"
+  },
+  "devDependencies": {
+    "@biomejs/biome": "^2.5.14",
+    "@types/bun": "^1.4.2",
+    "@types/node": "^22.20.3",
+    "axe-core": "^4.13.0",
+    "happy-dom": "^20.14.5",
+    "lefthook": "^2.1.14",
+    "typescript": "^6.0.3",
+    "wrangler": "^4.134.0"
+  }
+}

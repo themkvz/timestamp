@@ -1,0 +1,186 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Timestamp FAQ — Unix time, UTC, and Local time</title>
+    <meta
+      name="description"
+      content="Learn how Timestamp handles Unix seconds, milliseconds, Local and UTC date-times, precision, and privacy."
+    />
+    <meta name="robots" content="index,follow" />
+    <link rel="canonical" href="https://timestamp.themkvz.com/faq" />
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="Timestamp FAQ — Unix time, UTC, and Local time" />
+    <meta
+      property="og:description"
+      content="Learn how Timestamp handles Unix seconds, milliseconds, Local and UTC date-times, precision, and privacy."
+    />
+    <meta property="og:url" content="https://timestamp.themkvz.com/faq" />
+    <meta property="og:image" content="https://timestamp.themkvz.com/social.png" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="Timestamp FAQ — Unix time, UTC, and Local time" />
+    <meta
+      name="twitter:description"
+      content="Learn how Timestamp handles Unix seconds, milliseconds, Local and UTC date-times, precision, and privacy."
+    />
+    <meta name="twitter:image" content="https://timestamp.themkvz.com/social.png" />
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@type": "FAQPage",
+        "url": "https://timestamp.themkvz.com/faq",
+        "mainEntity": [
+          {
+            "@type": "Question",
+            "name": "What is a Unix timestamp?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "A Unix timestamp is the number of seconds or milliseconds before or after 1970-01-01T00:00:00Z."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "What is the difference between seconds and milliseconds?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Seconds are commonly used by APIs and may include up to three decimal places. Milliseconds are whole numbers and preserve the same precision."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "What do Local and UTC mean?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "UTC interprets the entered date and time at +00:00. Local uses your browser’s current system timezone; the result shows its timezone name and offset."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "How are daylight-saving changes handled?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Times skipped by a daylight-saving change are rejected. For a repeated local time, the browser chooses the earlier offset and Timestamp shows the resulting offset."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "What precision and range are supported?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Timestamp preserves integer milliseconds within the JavaScript Date range. Seconds accept no more than three fractional digits; values outside that range are rejected."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "Do my values leave this device?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "No. Timestamp converts in the current page only. It does not send, store, log, or put entered values into URLs."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "Why are natural-language dates not accepted?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Natural-language parsing is intentionally not part of this precise MVP. Planned work may add it alongside arbitrary IANA timezones, relative times, share links, and a manual theme switcher; no release date is promised."
+            }
+          }
+        ]
+      }
+    </script>
+    <meta name="theme-color" content="#07141d" />
+    <link rel="icon" href="./public/favicon.svg" type="image/svg+xml" />
+    <link rel="alternate icon" href="/favicon.ico" sizes="any" />
+    <link rel="apple-touch-icon" href="./public/apple-touch-icon.png" />
+    <link rel="manifest" href="./public/site.webmanifest" />
+    <link rel="stylesheet" href="./src/assets/styles.css" />
+  </head>
+  <body>
+    <header class="site-header">
+      <nav class="nav-primary" aria-label="Primary navigation">
+        <a href="/">Converter</a>
+        <a href="/faq" aria-current="page">FAQ</a>
+      </nav>
+      <a class="wordmark" href="/" aria-label="Timestamp home">
+        <span>time</span><strong>stamp</strong>
+      </a>
+      <nav class="nav-secondary" aria-label="About navigation">
+        <a href="/#how-it-works">How it works</a>
+        <a href="/#privacy">Privacy</a>
+      </nav>
+    </header>
+    <main class="page content-page">
+      <h1>Timestamp FAQ</h1>
+      <p>Answers about Unix timestamps, timezone interpretation, and local-first conversion.</p>
+      <details name="faq" open>
+        <summary>What is a Unix timestamp?</summary>
+        <p class="p-4">
+          A Unix timestamp is the number of seconds or milliseconds before or after
+          1970-01-01T00:00:00Z.
+        </p>
+      </details>
+      <details name="faq">
+        <summary>What is the difference between seconds and milliseconds?</summary>
+        <p class="p-4">
+          Seconds are commonly used by APIs and may include up to three decimal places. Milliseconds
+          are whole numbers and preserve the same precision.
+        </p>
+      </details>
+      <details name="faq">
+        <summary>What do Local and UTC mean?</summary>
+        <p class="p-4">
+          UTC interprets the entered date and time at +00:00. Local uses your browser’s current
+          system timezone; the result shows its timezone name and offset.
+        </p>
+      </details>
+      <details name="faq">
+        <summary>How are daylight-saving changes handled?</summary>
+        <p class="p-4">
+          Times skipped by a daylight-saving change are rejected. For a repeated local time, the
+          browser chooses the earlier offset and Timestamp shows the resulting offset.
+        </p>
+      </details>
+      <details name="faq">
+        <summary>What precision and range are supported?</summary>
+        <p class="p-4">
+          Timestamp preserves integer milliseconds within the JavaScript Date range. Seconds accept
+          no more than three fractional digits; values outside that range are rejected.
+        </p>
+      </details>
+      <details name="faq">
+        <summary>Do my values leave this device?</summary>
+        <p class="p-4">
+          No. Timestamp converts in the current page only. It does not send, store, log, or put
+          entered values into URLs.
+        </p>
+      </details>
+      <details name="faq">
+        <summary>Why are natural-language dates not accepted?</summary>
+        <p class="p-4">
+          Natural-language parsing is intentionally not part of this precise MVP. Planned work may
+          add it alongside arbitrary IANA timezones, relative times, share links, and a manual theme
+          switcher; no release date is promised.
+        </p>
+      </details>
+      <p>
+        See the <a href="/">converter</a> or read the
+        <a
+          href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Date"
+          target="_blank"
+          rel="noopener noreferrer"
+          referrerpolicy="no-referrer"
+          >JavaScript Date documentation</a
+        >.
+      </p>
+    </main>
+    <footer class="site-footer">
+      <small>Local-first timestamp conversion.</small>
+      <nav aria-label="Footer navigation">
+        <a href="/">Converter</a>
+        <a href="/faq" aria-current="page">FAQ</a>
+      </nav>
+    </footer>
+  </body>
+</html>
