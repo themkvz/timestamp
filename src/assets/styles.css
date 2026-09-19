@@ -194,6 +194,7 @@ body {
   font-weight: 850;
   letter-spacing: -0.065em;
   line-height: 0.87;
+  hyphens: auto;
 }
 
 .hero h1 em {
@@ -294,7 +295,7 @@ body {
   letter-spacing: 0.02em;
 }
 
-.converter :is(input, select) {
+.converter :is(input, select, textarea) {
   min-height: 3.15rem;
   margin-top: var(--space-2);
   background: var(--surface-console);
@@ -309,7 +310,7 @@ body {
 
 #unix-value,
 #date-time,
-.result input {
+.result :is(input, textarea) {
   font-family: var(--utility-font);
   font-variant-numeric: tabular-nums;
 }
@@ -355,7 +356,7 @@ body {
   margin: var(--space-2) 0 0;
 }
 
-.result input[readonly] {
+.result :is(input, textarea)[readonly] {
   background: color-mix(in srgb, var(--signal-wash) 62%, var(--surface-console));
   border-color: color-mix(in srgb, var(--signal) 34%, var(--border));
   cursor: text;
@@ -365,6 +366,7 @@ body {
   background: var(--surface-raised);
   color: var(--signal);
   border-color: color-mix(in srgb, var(--signal) 34%, var(--border));
+  margin-bottom: 0;
 }
 
 .result .copy-button:hover:not(:disabled) {
@@ -385,11 +387,16 @@ body {
   grid-column: 1 / -1;
 }
 
-.primary-result input {
+.primary-result :is(input, textarea) {
   color: var(--signal);
   border-color: var(--signal);
   font-size: clamp(1rem, 2.2vw, 1.35rem);
   font-weight: 700;
+}
+
+#localized-time {
+  field-sizing: content;
+  resize: none;
 }
 
 .result .group input {
@@ -623,6 +630,25 @@ body {
   .site-footer {
     align-items: flex-start;
     flex-direction: column;
+  }
+}
+
+@media (max-width: 24rem) {
+  .converter {
+    padding: 0.5rem;
+  }
+
+  .converter .card {
+    padding: 0.75rem;
+  }
+
+  .result .group {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .result .group .copy-button {
+    align-self: flex-end;
   }
 }
 

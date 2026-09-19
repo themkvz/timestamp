@@ -34,7 +34,7 @@ const status = get<HTMLElement>('converter-status')
 const unixError = get<HTMLElement>('unix-error')
 const dateError = get<HTMLElement>('date-error')
 const outputs = {
-  localized: get<HTMLInputElement>('localized-time'),
+  localized: get<HTMLTextAreaElement>('localized-time'),
   milliseconds: get<HTMLInputElement>('unix-milliseconds'),
   seconds: get<HTMLInputElement>('unix-seconds'),
   utcIso: get<HTMLInputElement>('utc-iso'),
