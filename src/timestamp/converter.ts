@@ -1,5 +1,11 @@
 import { atom } from 'nanostores'
 
+declare global {
+  interface Window {
+    op?: (command: string, ...args: unknown[]) => void
+  }
+}
+
 import {
   formatDateTime,
   formatLocalized,
@@ -117,15 +123,27 @@ unixInput.addEventListener('input', () => {
   if ('error' in result) return showError(unixInput, unixError, result.error)
   updateState({ milliseconds: result.value })
 })
+unixInput.addEventListener('focus', () =>
+  window.op?.('track', 'field_used', { field: 'unix-value' }),
+)
 
 dateInput.addEventListener('input', () => {
   const result = parseDateTime(dateInput.value, $converter.get().mode)
   if ('error' in result) return showError(dateInput, dateError, result.error)
   updateState({ milliseconds: result.value })
 })
+dateInput.addEventListener('focus', () =>
+  window.op?.('track', 'field_used', { field: 'date-time' }),
+)
 
-unitInput.addEventListener('change', () => updateState({ unit: unitInput.value as UnixUnit }))
-modeInput.addEventListener('change', () => updateState({ mode: modeInput.value as TimeZoneMode }))
+unitInput.addEventListener('change', () => {
+  updateState({ unit: unitInput.value as UnixUnit })
+  window.op?.('track', 'unix_unit_changed', { unit: unitInput.value })
+})
+modeInput.addEventListener('change', () => {
+  updateState({ mode: modeInput.value as TimeZoneMode })
+  window.op?.('track', 'timezone_mode_changed', { mode: modeInput.value })
+})
 nowButton.addEventListener('click', () => {
   updateState({ milliseconds: Date.now() })
   setStatus('Current time captured.')

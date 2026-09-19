@@ -44,19 +44,45 @@
     <link rel="manifest" href="./public/site.webmanifest" />
     <link rel="stylesheet" href="./src/assets/styles.css" />
     <script type="module" src="./src/timestamp/converter.ts"></script>
+    <script>
+      // biome-ignore-start lint: vendor snippet from OpenPanel docs, kept verbatim
+      window.op=window.op||function(){var n=[];return new Proxy(function(){arguments.length&&n.push([].slice.call(arguments))},{get:function(t,r){return"q"===r?n:function(){n.push([r].concat([].slice.call(arguments)))}} ,has:function(t,r){return"q"===r}}) }();
+      // biome-ignore-end lint: vendor snippet from OpenPanel docs, kept verbatim
+      window.op('init', {
+        apiUrl: 'https://openpanel.themkvz.com/api',
+        clientId: '3a3ef04a-d6a3-445e-bd09-938735469e64',
+        trackScreenViews: true,
+        trackOutgoingLinks: true,
+        trackAttributes: true,
+        // sessionReplay: {
+        //   enabled: true,
+        // },
+      });
+    </script>
+    <script src="https://openpanel.themkvz.com/op1.js" defer async></script>
   </head>
   <body>
     <header class="site-header">
       <nav class="nav-primary" aria-label="Primary navigation">
-        <a href="#converter" aria-current="page">Converter</a>
-        <a href="/faq">FAQ</a>
+        <a href="#converter" aria-current="page" data-track="nav_click" data-item="primary-converter"
+          >Converter</a
+        >
+        <a href="/faq" data-track="nav_click" data-item="primary-faq">FAQ</a>
       </nav>
-      <a class="wordmark" href="/" aria-label="Timestamp home">
+      <a
+        class="wordmark"
+        href="/"
+        aria-label="Timestamp home"
+        data-track="nav_click"
+        data-item="wordmark-home"
+      >
         <span>time</span><strong>stamp</strong>
       </a>
       <nav class="nav-secondary" aria-label="About navigation">
-        <a href="#how-it-works">How it works</a>
-        <a href="#privacy">Privacy</a>
+        <a href="#how-it-works" data-track="nav_click" data-item="secondary-how-it-works"
+          >How it works</a
+        >
+        <a href="#privacy" data-track="nav_click" data-item="secondary-privacy">Privacy</a>
       </nav>
     </header>
     <main class="page home-page">
@@ -96,7 +122,7 @@
               <option value="utc">UTC (+00:00)</option>
             </select>
           </div>
-          <button id="now" type="button">Use current time</button>
+          <button id="now" type="button" data-track="use_current_time">Use current time</button>
         </section>
         <section class="card input-card" aria-labelledby="unix-heading">
           <h2 id="unix-heading">Unix timestamp</h2>
@@ -135,6 +161,8 @@
                 type="button"
                 class="outline icon copy-button"
                 data-copy="unix-seconds"
+                data-track="copy_output"
+                data-field="unix-seconds"
                 data-tooltip="Copy Unix seconds"
                 aria-label="Copy Unix seconds"
               >
@@ -153,6 +181,8 @@
                 type="button"
                 class="outline icon copy-button"
                 data-copy="unix-milliseconds"
+                data-track="copy_output"
+                data-field="unix-milliseconds"
                 data-tooltip="Copy Unix milliseconds"
                 aria-label="Copy Unix milliseconds"
               >
@@ -171,6 +201,8 @@
                 type="button"
                 class="outline icon copy-button"
                 data-copy="utc-iso"
+                data-track="copy_output"
+                data-field="utc-iso"
                 data-tooltip="Copy UTC ISO 8601"
                 aria-label="Copy UTC ISO 8601"
               >
@@ -216,8 +248,10 @@
     <footer class="site-footer">
       <small>Local-first timestamp conversion.</small>
       <nav aria-label="Footer navigation">
-        <a href="/" aria-current="page">Converter</a>
-        <a href="/faq">FAQ</a>
+        <a href="/" aria-current="page" data-track="nav_click" data-item="footer-converter"
+          >Converter</a
+        >
+        <a href="/faq" data-track="nav_click" data-item="footer-faq">FAQ</a>
       </nav>
     </footer>
   </body>
