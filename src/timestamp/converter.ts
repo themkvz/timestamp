@@ -23,6 +23,7 @@ const unitInput = get<HTMLSelectElement>('unix-unit')
 const dateInput = get<HTMLInputElement>('date-time')
 const modeInput = get<HTMLSelectElement>('timezone-mode')
 const nowButton = get<HTMLButtonElement>('now')
+const converter = get<HTMLFormElement>('converter')
 const status = get<HTMLElement>('converter-status')
 const unixError = get<HTMLElement>('unix-error')
 const dateError = get<HTMLElement>('date-error')
@@ -33,6 +34,27 @@ const outputs = {
   utcIso: get<HTMLInputElement>('utc-iso'),
 }
 const copyButtons = [...document.querySelectorAll<HTMLButtonElement>('[data-copy]')]
+
+const browserWindow = document.defaultView
+const maxShadowOffset = 14
+
+const updateConverterShadow = ({ clientX, clientY }: PointerEvent): void => {
+  const bounds = converter.getBoundingClientRect()
+  const horizontalPosition = (bounds.left + bounds.width / 2 - clientX) / (bounds.width / 2)
+  const verticalPosition = (bounds.top + bounds.height / 2 - clientY) / (bounds.height / 2)
+  const shadowX = Math.max(-1, Math.min(1, horizontalPosition)) * maxShadowOffset
+  const shadowY = Math.max(-1, Math.min(1, verticalPosition)) * maxShadowOffset
+
+  converter.style.setProperty('--converter-shadow-x', `${shadowX.toFixed(2)}px`)
+  converter.style.setProperty('--converter-shadow-y', `${shadowY.toFixed(2)}px`)
+}
+
+if (
+  browserWindow?.matchMedia('(pointer: fine)').matches &&
+  !browserWindow.matchMedia('(prefers-reduced-motion: reduce)').matches
+) {
+  browserWindow.addEventListener('pointermove', updateConverterShadow, { passive: true })
+}
 
 type ConverterState = {
   milliseconds: number

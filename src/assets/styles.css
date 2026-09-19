@@ -1,6 +1,18 @@
 @import "@knadh/oat/oat.min.css";
 @import "@fontsource-variable/geist/wght.css";
 
+@property --converter-shadow-x {
+  syntax: "<length>";
+  inherits: false;
+  initial-value: 0.8rem;
+}
+
+@property --converter-shadow-y {
+  syntax: "<length>";
+  inherits: false;
+  initial-value: 0.8rem;
+}
+
 :root {
   --page-background: #edf6f7;
   --page-grid: rgb(8 99 112 / 8%);
@@ -55,8 +67,8 @@ body {
 }
 
 .site-header {
-    width: min(calc(100% - 2rem), 42rem);
-    margin-inline: auto;
+  width: min(calc(100% - 2rem), 42rem);
+  margin-inline: auto;
   position: sticky;
   top: 1rem;
   z-index: 20;
@@ -200,6 +212,9 @@ body {
 }
 
 .converter {
+  --converter-shadow-x: 0.8rem;
+  --converter-shadow-y: 0.8rem;
+
   position: relative;
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
@@ -211,7 +226,10 @@ body {
   border-radius: var(--radius-large);
   box-shadow:
     0 0 0 0.35rem color-mix(in srgb, var(--signal) 12%, transparent),
-    0.8rem 0.8rem 0 var(--offset-soft);
+    var(--converter-shadow-x) var(--converter-shadow-y) 0 var(--offset-soft),
+    calc(var(--converter-shadow-x) * 0.5) calc(var(--converter-shadow-y) * 0.5) 0.8rem
+    color-mix(in srgb, var(--offset) 24%, transparent);
+  transition: box-shadow 120ms ease-out;
 }
 
 .converter-header,
@@ -577,9 +595,14 @@ body {
   }
 
   .converter {
+    --converter-shadow-x: 0.4rem;
+    --converter-shadow-y: 0.4rem;
+
     box-shadow:
       0 0 0 0.25rem color-mix(in srgb, var(--signal) 12%, transparent),
-      0.4rem 0.4rem 0 var(--offset-soft);
+      var(--converter-shadow-x) var(--converter-shadow-y) 0 var(--offset-soft),
+      calc(var(--converter-shadow-x) * 1.5) calc(var(--converter-shadow-y) * 1.5) 1.2rem
+      color-mix(in srgb, var(--offset) 24%, transparent);
   }
 
   .converter-header {
@@ -606,6 +629,10 @@ body {
 @media (prefers-reduced-motion: reduce) {
   html {
     scroll-behavior: auto;
+  }
+
+  .converter {
+    transition: none;
   }
 }
 
