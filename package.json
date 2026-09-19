@@ -3,7 +3,7 @@
   "private": true,
   "type": "module",
   "scripts": {
-    "build": "bun run scripts/build.ts",
+    "build": "bun install &&  bun run scripts/build.ts",
     "check": "bun run format:check && bun run lint && bun run typecheck",
     "dev": "bun ./index.html ./faq.html",
     "format": "biome format --write .",
