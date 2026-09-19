@@ -529,23 +529,46 @@ body {
 @media (max-width: 52rem) {
   .site-header {
     grid-template-areas:
-      "brand brand"
-      "primary secondary";
-    grid-template-columns: 1fr 1fr;
-    gap: var(--space-2);
-  }
-
-  .nav-primary {
-    grid-area: primary;
+      "brand primary"
+      "secondary secondary";
+    grid-template-columns: 1fr auto;
+    row-gap: var(--space-1);
+    padding: 0.5rem 0.6rem;
   }
 
   .wordmark {
     grid-area: brand;
-    padding-block: var(--space-2);
+    justify-self: start;
+    font-size: 0.82rem;
+  }
+
+  .nav-primary {
+    grid-area: primary;
+    justify-self: end;
+  }
+
+  .site-header nav a {
+    padding: 0.4rem 0.55rem;
   }
 
   .nav-secondary {
     grid-area: secondary;
+    justify-content: flex-start;
+    gap: var(--space-4);
+    padding-top: var(--space-1);
+    border-top: 1px solid color-mix(in srgb, var(--border) 55%, transparent);
+  }
+
+  .site-header .nav-secondary a {
+    padding: var(--space-1) 0;
+    font-size: 0.66rem;
+    font-weight: var(--font-medium);
+  }
+
+  .site-header .nav-secondary a:hover,
+  .site-header .nav-secondary a[aria-current="page"] {
+    background: none;
+    color: var(--signal);
   }
 
   .converter {
@@ -564,24 +587,6 @@ body {
   .site-footer,
   .page {
     width: min(calc(100% - 1rem), 76rem);
-  }
-
-  .site-header {
-    position: relative;
-    top: auto;
-  }
-
-  .site-header nav {
-    align-items: stretch;
-    flex-direction: column;
-  }
-
-  .site-header .nav-secondary {
-    align-items: flex-end;
-  }
-
-  .site-header nav a {
-    padding: 0.4rem 0.5rem;
   }
 
   .home-page {
