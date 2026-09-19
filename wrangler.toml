@@ -1,3 +1,4 @@
 name = "timestamp"
 pages_build_output_dir = "dist"
 compatibility_date = "2026-09-17"
+vars = { "BUN_VERSION": "1.4.2" }
