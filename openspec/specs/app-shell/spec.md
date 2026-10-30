@@ -42,9 +42,10 @@ footer navigation linking to the converter and FAQ. The current page link SHALL 
 
 ### Requirement: Local-first privacy
 The application MUST NOT transmit, persist, log, or place in document URLs any user-entered timestamp
-or date/time value. It MUST NOT use analytics, cookies, local storage, session storage, IndexedDB, or
-other persistent browser storage in this change. All executable, stylesheet, font, and image resources
-MUST be served from the application's own origin.
+or date/time value. The application's own code MUST NOT use cookies, local storage, session storage,
+IndexedDB, or other persistent browser storage. All executable, stylesheet, font, and image resources
+MUST be served from the application's own origin, except the self-hosted analytics tracker defined in
+the analytics capability (`https://openpanel.themkvz.com`).
 
 #### Scenario: User performs conversions
 - **WHEN** a user enters, converts, or copies timestamp and date/time values
@@ -53,7 +54,7 @@ MUST be served from the application's own origin.
 
 #### Scenario: Page resources load
 - **WHEN** either page loads with browser network inspection enabled
-- **THEN** every resource request uses the serving origin
+- **THEN** every resource request uses the serving origin or the self-hosted analytics origin
 
 #### Scenario: Network request fails
 - **WHEN** the browser cannot reach any remote service after the page has loaded

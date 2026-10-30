@@ -1,6 +1,7 @@
 import { expect, test } from 'bun:test'
 
 const root = 'https://timestamp.themkvz.com'
+const analyticsOrigin = 'https://openpanel.themkvz.com/'
 const page = async (name: string): Promise<string> => Bun.file(`dist/${name}`).text()
 const meta = (html: string, attribute: string, value: string): string | undefined =>
   html.match(
@@ -92,6 +93,8 @@ test('the converter remains local-only', async () => {
     ...`${index}\n${faq}`.matchAll(/<(?:link|script|img)[^>]+(?:href|src)="(https?:[^"']+)"/g),
   ].map((match) => match[1])
 
-  expect(resourceUrls.every((url) => url.startsWith(root))).toBeTrue()
+  expect(
+    resourceUrls.every((url) => url.startsWith(root) || url.startsWith(analyticsOrigin)),
+  ).toBeTrue()
   expect(converter).not.toMatch(/localStorage|sessionStorage|indexedDB|document\.cookie/)
 })
