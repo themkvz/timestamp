@@ -98,3 +98,24 @@ test('the converter remains local-only', async () => {
   ).toBeTrue()
   expect(converter).not.toMatch(/localStorage|sessionStorage|indexedDB|document\.cookie/)
 })
+
+test('built _headers configures strict CSP, security headers, and immutable chunk caching', async () => {
+  const headers = await Bun.file('dist/_headers').text()
+  const csp = headers.match(/^\s*Content-Security-Policy:\s*(.+)$/m)?.[1] ?? ''
+  const scriptSrc = csp.match(/script-src ([^;]+)/)?.[1] ?? ''
+
+  expect(csp).toContain("default-src 'self'")
+  expect(scriptSrc).toContain("'self'")
+  expect(scriptSrc).toContain('https://openpanel.themkvz.com')
+  expect(scriptSrc).not.toContain("'unsafe-inline'")
+  expect(scriptSrc.match(/'sha256-[A-Za-z0-9+/=]+'/g)?.length).toBeGreaterThanOrEqual(2)
+  expect(csp).toContain("img-src 'self' data:")
+  expect(csp).toContain("font-src 'self' data:")
+  expect(csp).toContain("connect-src 'self' https://openpanel.themkvz.com")
+  expect(csp).toContain("object-src 'none'")
+  expect(csp).toContain("base-uri 'none'")
+  expect(csp).toContain("frame-ancestors 'none'")
+  expect(headers).toContain('X-Content-Type-Options: nosniff')
+  expect(headers).toContain('Referrer-Policy: strict-origin-when-cross-origin')
+  expect(headers).toMatch(/\/chunk-\*\n\s+Cache-Control: public, max-age=31536000, immutable/)
+})
