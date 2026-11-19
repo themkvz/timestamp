@@ -1,8 +1,22 @@
+import { createHash } from 'node:crypto'
+import { readdir, stat } from 'node:fs/promises'
+import { basename, extname, join } from 'node:path'
 import { expect, test } from 'bun:test'
 
 const root = 'https://timestamp.themkvz.com'
 const analyticsOrigin = 'https://openpanel.themkvz.com/'
+const escapeRegExp = (value: string): string => value.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')
 const page = async (name: string): Promise<string> => Bun.file(`dist/${name}`).text()
+const listFiles = async (dir: string): Promise<string[]> => {
+  const entries = await readdir(dir, { withFileTypes: true })
+  const files = await Promise.all(
+    entries.map((entry) => {
+      const path = join(dir, entry.name)
+      return entry.isDirectory() ? listFiles(path) : Promise.resolve([path])
+    }),
+  )
+  return files.flat()
+}
 const meta = (html: string, attribute: string, value: string): string | undefined =>
   html.match(
     new RegExp(`<meta[^>]+${attribute}=["']${value}["'][^>]+content=["']([^"']+)["']`, 'i'),
@@ -78,7 +92,9 @@ test('structured data, assets, and crawl files match the shipped pages', async (
     expect(await Bun.file(`dist/${asset}`).exists()).toBeTrue()
   }
 
+  const maxSocialImageBytes = 102_400
   const bytes = new DataView(social)
+  expect(social.byteLength).toBeLessThan(maxSocialImageBytes)
   expect(bytes.getUint32(16)).toBe(1_200)
   expect(bytes.getUint32(20)).toBe(630)
 })
@@ -109,6 +125,13 @@ test('built _headers configures strict CSP, security headers, and immutable chun
   expect(scriptSrc).toContain('https://openpanel.themkvz.com')
   expect(scriptSrc).not.toContain("'unsafe-inline'")
   expect(scriptSrc.match(/'sha256-[A-Za-z0-9+/=]+'/g)?.length).toBeGreaterThanOrEqual(2)
+  for (const name of ['index.html', 'faq.html', 'faq/index.html']) {
+    const html = await page(name)
+    for (const [, body = ''] of html.matchAll(/<script>([\s\S]*?)<\/script>/g)) {
+      const hash = `'sha256-${createHash('sha256').update(body).digest('base64')}'`
+      expect(scriptSrc).toContain(hash)
+    }
+  }
   expect(csp).toContain("img-src 'self' data:")
   expect(csp).toContain("font-src 'self' data:")
   expect(csp).toContain("connect-src 'self' https://openpanel.themkvz.com")
@@ -118,4 +141,65 @@ test('built _headers configures strict CSP, security headers, and immutable chun
   expect(headers).toContain('X-Content-Type-Options: nosniff')
   expect(headers).toContain('Referrer-Policy: strict-origin-when-cross-origin')
   expect(headers).toMatch(/\/chunk-\*\n\s+Cache-Control: public, max-age=31536000, immutable/)
+})
+
+test('built dist omits 0-byte files and hashed public duplicates and keeps stable asset URLs', async () => {
+  const [distFiles, publicFiles, index, faq, faqClean] = await Promise.all([
+    listFiles('dist'),
+    readdir('public'),
+    page('index.html'),
+    page('faq.html'),
+    page('faq/index.html'),
+  ])
+
+  const fileSizes = await Promise.all(
+    distFiles.map(async (file) => ({ file, size: (await stat(file)).size })),
+  )
+  expect(fileSizes.filter(({ size }) => size === 0)).toEqual([])
+
+  const distNames = distFiles.map((file) => basename(file))
+  for (const publicFile of publicFiles) {
+    expect(await Bun.file(`dist/${publicFile}`).exists()).toBeTrue()
+    const ext = extname(publicFile)
+    const stem = basename(publicFile, ext)
+    const hashedDuplicate = new RegExp(`^${escapeRegExp(stem)}-[a-z0-9]+${escapeRegExp(ext)}$`)
+    expect(distNames.filter((name) => hashedDuplicate.test(name))).toEqual([])
+  }
+
+  expect(faqClean).toBe(faq)
+  expect(faq).not.toMatch(/<script\b[^>]*\btype=["']module["']/)
+
+  const stablePublicUrls = [
+    '/favicon.svg',
+    '/favicon.ico',
+    '/apple-touch-icon.png',
+    '/site.webmanifest',
+  ]
+  for (const html of [index, faq, faqClean]) {
+    expect(html).not.toContain('./public/')
+    for (const stableUrl of stablePublicUrls) {
+      expect(html).toContain(`href="${stableUrl}"`)
+    }
+
+    const localAssets = [
+      ...html.matchAll(/<(?:link\b[^>]*\bhref|script\b[^>]*\bsrc)=["'](\/[^"']+)["']/g),
+    ].map((match) => match[1])
+    expect(localAssets.length).toBeGreaterThanOrEqual(5)
+    for (const assetPath of localAssets) {
+      expect(await Bun.file(`dist${assetPath}`).exists()).toBeTrue()
+    }
+  }
+})
+
+test('built CSS defines keyframes for referenced animations', async () => {
+  const cssFiles = (await readdir('dist')).filter((file) => /^chunk-.*\.css$/.test(file))
+  expect(cssFiles.length).toBeGreaterThanOrEqual(1)
+
+  for (const file of cssFiles) {
+    const css = await Bun.file(`dist/${file}`).text()
+    if (css.includes('fade-in-up')) {
+      const keyframes = [...css.matchAll(/@keyframes\s+([a-zA-Z0-9_-]+)/g)].map((match) => match[1])
+      expect(keyframes).toContain('fade-in-up')
+    }
+  }
 })
