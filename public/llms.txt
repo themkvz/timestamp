@@ -1,0 +1,13 @@
+# Timestamp (unixstamp.dev)
+
+> Local-first Unix timestamp converter: seconds or milliseconds ↔ UTC and browser local date-time, entirely in the browser.
+
+## Pages
+
+- [Converter](https://unixstamp.dev/): Bidirectional Unix seconds/milliseconds ↔ UTC ISO 8601 and local date-time converter with millisecond precision and one-click copy.
+- [FAQ](https://unixstamp.dev/faq): Answers on Unix timestamps, seconds vs. milliseconds, Local vs. UTC interpretation, DST handling, precision/range, and privacy.
+
+## Privacy & Architecture
+
+- All timestamp conversions run locally in the browser; entered values are never sent over the network, stored, or placed in URLs.
+- Self-hosted OpenPanel analytics (`https://openpanel.themkvz.com`) record page views and UI interaction metadata only, never entered values or results.
