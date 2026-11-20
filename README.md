@@ -4,7 +4,7 @@ A local-first Unix timestamp converter. Convert Unix seconds or milliseconds to 
 
 It is for developers who check log timestamps, API payloads or database values and want an exact answer without a server round trip.
 
-**Live:** [timestamp.themkvz.com](https://timestamp.themkvz.com)
+**Live:** [unixstamp.dev](https://unixstamp.dev)
 
 ![Converter showing 1709210096.789 seconds as 2024-02-29T12:34:56.789Z](docs/screenshot.png)
 
@@ -77,7 +77,7 @@ Issues and pull requests are welcome. A Lefthook pre-commit hook runs `bun run c
 
 Do not deploy without explicit approval from the maintainer.
 
-The production site is a Cloudflare Pages project serving `dist/` at `timestamp.themkvz.com`. The only Wrangler variable is `BUN_VERSION`, which pins Bun for the Pages build. After approval, upload a verified build:
+The production site is a Cloudflare Pages project serving `dist/` at `unixstamp.dev`. The only Wrangler variable is `BUN_VERSION`, which pins Bun for the Pages build. After approval, upload a verified build:
 
 ```sh
 bunx wrangler pages deploy dist --project-name timestamp

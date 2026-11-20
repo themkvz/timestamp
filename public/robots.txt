@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://timestamp.themkvz.com/sitemap.xml
+Sitemap: https://unixstamp.dev/sitemap.xml

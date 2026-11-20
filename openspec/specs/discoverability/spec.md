@@ -19,7 +19,7 @@ page-specific content.
 ### Requirement: Unique canonical metadata
 Each top-level page SHALL declare English document language, a unique title, a unique description
 between 50 and 160 characters, indexing directives, and one canonical URL under
-`https://timestamp.themkvz.com`. The homepage canonical URL SHALL be `/`, and the FAQ canonical URL
+`https://unixstamp.dev`. The homepage canonical URL SHALL be `/`, and the FAQ canonical URL
 SHALL be `/faq`.
 
 #### Scenario: Inspect page metadata
@@ -64,12 +64,12 @@ a valid `sitemap.xml` listing exactly the canonical homepage and FAQ URLs delive
 #### Scenario: Inspect robots file
 - **WHEN** `/robots.txt` is requested
 - **THEN** it permits all user agents and points to
-  `https://timestamp.themkvz.com/sitemap.xml`
+  `https://unixstamp.dev/sitemap.xml`
 
 #### Scenario: Inspect sitemap
 - **WHEN** `/sitemap.xml` is parsed
-- **THEN** it lists `https://timestamp.themkvz.com/` and
-  `https://timestamp.themkvz.com/faq` exactly once and no unshipped future page
+- **THEN** it lists `https://unixstamp.dev/` and
+  `https://unixstamp.dev/faq` exactly once and no unshipped future page
 
 ### Requirement: Self-hosted browser identity assets
 Every page SHALL reference a self-hosted SVG favicon, ICO favicon, apple touch icon, web app manifest,

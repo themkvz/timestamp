@@ -3,7 +3,7 @@ import { readdir, stat } from 'node:fs/promises'
 import { basename, extname, join } from 'node:path'
 import { expect, test } from 'bun:test'
 
-const root = 'https://timestamp.themkvz.com'
+const root = 'https://unixstamp.dev'
 const analyticsOrigin = 'https://openpanel.themkvz.com/'
 const escapeRegExp = (value: string): string => value.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')
 const page = async (name: string): Promise<string> => Bun.file(`dist/${name}`).text()
